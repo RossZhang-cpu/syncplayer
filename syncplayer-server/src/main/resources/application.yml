@@ -1,0 +1,8 @@
+server:
+  port: 9001
+
+logging:
+  level:
+    root: debug
+    com.rosszhang.syncplayer.server.controller.SyncTimeController: debug
+

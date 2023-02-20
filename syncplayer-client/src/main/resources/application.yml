@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: syncplayerclient
+
+server:
+  port: 9002
+
+syncplayer:
+  server:
+    url:
+
+
+logging:
+  level:
+    root: debug

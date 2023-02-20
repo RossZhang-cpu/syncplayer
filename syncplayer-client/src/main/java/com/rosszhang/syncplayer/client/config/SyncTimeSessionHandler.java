@@ -10,28 +10,19 @@ import java.util.Objects;
 
 public class SyncTimeSessionHandler extends StompSessionHandlerAdapter {
 
-//    private Integer diff;
+    private Integer diff;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Override
-    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        log.info("after connected...");
-        String path = "/app/sync/1234";
-        StompSession.Subscription subscribe = session.subscribe("/topic/synctime/1234", this);
-        log.info("subscription info {} ", subscribe.toString());
-        session.send(path, "111");
-    }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         log.info("Client received message: {} ", Objects.requireNonNull(payload));
         super.handleFrame(headers, payload);
         //do sync operation
-//        this.diff = (Integer) payload;
+        this.diff = Integer.valueOf((String) payload);
     }
 
-//    public Integer getDiff() {
-//        return diff;
-//    }
+    public Integer getDiff() {
+        return diff;
+    }
 }

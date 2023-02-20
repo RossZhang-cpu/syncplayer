@@ -23,7 +23,6 @@ public class WebSocketClientFacade {
     private WebSocketStompClient stompClient;
     private StompSession session;
     private String serverEndPoint;
-    private String subscribeUrl;
     private StompSessionHandlerAdapter handler;
 
 
@@ -31,13 +30,11 @@ public class WebSocketClientFacade {
         defaultConfig();
     }
 
-    public WebSocketClientFacade(String serverEndPoint, String subscribeUrl, StompSessionHandlerAdapter handlerAdapter) {
+    public WebSocketClientFacade(String serverEndPoint, StompSessionHandlerAdapter handlerAdapter) {
         defaultConfig();
         this.serverEndPoint = serverEndPoint;
-        this.subscribeUrl = subscribeUrl;
         this.handler = handlerAdapter;
         this.session = connectToServer(serverEndPoint);
-//        subscribe();
     }
 
     public void defaultConfig() {
@@ -46,8 +43,6 @@ public class WebSocketClientFacade {
     }
 
     private StompSession connectToServer(String endPoint) {
-//        StompSessionHandler sessionHandler = new StompSessionHandlerAdapter() {
-//        };
         StompSession session = null;
         try {
             session = this.stompClient.connect(endPoint, handler).get();
@@ -70,10 +65,6 @@ public class WebSocketClientFacade {
         return session;
     }
 
-    public String getSubscribeUrl() {
-        return subscribeUrl;
-    }
-
     public StompSessionHandlerAdapter getHandler() {
         return handler;
     }
@@ -82,9 +73,8 @@ public class WebSocketClientFacade {
         this.session.send(path, message);
     }
 
-    private void subscribe() {
-        StompSession.Subscription subscribe = this.session.subscribe(subscribeUrl, Objects.requireNonNull(this.handler));
-
+    public void subscribe(String subscribeUrl) {
+       this.session.subscribe(subscribeUrl, Objects.requireNonNull(this.handler));
     }
 
 }

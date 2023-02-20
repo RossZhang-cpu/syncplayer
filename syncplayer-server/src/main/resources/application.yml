@@ -3,6 +3,6 @@ server:
 
 logging:
   level:
-    root: debug
+    root: info
     com.rosszhang.syncplayer.server.controller.SyncTimeController: debug
 

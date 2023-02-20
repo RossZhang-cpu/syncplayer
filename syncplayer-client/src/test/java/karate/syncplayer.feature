@@ -103,14 +103,15 @@ Feature: browser automation 1
     * def path = '/app/sync/1234'
     * def subscribeUrl = '/topic/synctime/1234'
     * def serverUrl = 'ws://localhost:9001/ws'
-    * def JavaClient = Java.type('com.rosszhang.syncplayer.client.service.WebSocketClientFacade')
+    * def javaClient = Java.type('com.rosszhang.syncplayer.client.service.WebSocketClientFacade')
     * def SessionHandler = Java.type('com.rosszhang.syncplayer.client.config.SyncTimeSessionHandler')
     * def handler = new SessionHandler()
-    * def session = new JavaClient(serverUrl, subscribeUrl, handler)
-    * session.send(path, '1')
+    * def wsClient = new javaClient(serverUrl, handler)
+    * wsClient.subscribe(subscribeUrl)
+    * wsClient.send(path, '1')
     * listen 5000
     * print handler.getDiff()
-    * print currentThread()
+
 
 
 #    client side:

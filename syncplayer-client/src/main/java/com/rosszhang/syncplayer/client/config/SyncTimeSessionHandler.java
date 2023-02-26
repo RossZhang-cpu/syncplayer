@@ -22,7 +22,25 @@ public class SyncTimeSessionHandler extends StompSessionHandlerAdapter {
         this.diff = Integer.valueOf((String) payload);
     }
 
+    /**
+     * only allow to read once
+     * @return
+     */
     public Integer getDiff() {
-        return diff;
+        Integer result = diff;
+        if (diff != null) {
+            diff = null;
+        }
+        return result;
+    }
+
+    public Integer listenResult() throws InterruptedException {
+        Integer result;
+        int i = 0;
+        while ((result = getDiff()) == null && i < 200) {
+            Thread.sleep(50);
+            ++i;
+        }
+        return result;
     }
 }

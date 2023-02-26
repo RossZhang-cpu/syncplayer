@@ -72,10 +72,16 @@ Feature: browser automation 1
     * sleep(3000)
     And waitForUrl(driver.url)
     ## connect
-    * def handler = function(msg){ return !"0".equals(msg) }
-    * def serverEndPoint = "ws://localhost:9001/ws"
-    * def socket = karate.webSocket(serverEndPoint + "/app/websocket/1234", handler)
-    * print "log time..."
+    * def sleep = function(millis) { java.lang.Thread.sleep(millis) }
+    * def diff = function(handler) { while(handler.getDiff() == null){java.lang.Thread.sleep(50)} }
+    * def path = '/app/sync/1234'
+    * def subscribeUrl = '/topic/synctime/1234'
+    * def serverUrl = 'ws://localhost:9001/ws'
+    * def javaClient = Java.type('com.rosszhang.syncplayer.client.service.WebSocketClientFacade')
+    * def SessionHandler = Java.type('com.rosszhang.syncplayer.client.config.SyncTimeSessionHandler')
+    * def handler = new SessionHandler()
+    * def wsClient = new javaClient(serverUrl, handler)
+    * wsClient.subscribe(subscribeUrl)
     ## every five seconds
     * sleep(5000)
     * def progress = attribute("//*[@id='vjsp']/div[4]/div[5]/div", "aria-valuetext")
@@ -86,11 +92,11 @@ Feature: browser automation 1
     * def currentTime = spiltCur(progress)
     * def duration = spiltDuration(progress)
     * print currentTime
-    * print duration
+#    * print duration
 #    * def clientPlayer = Java.type('com.rosszhang.syncplayer.client.service.ClientPlayer.java')
-    * socket.send(currentTime)
-    * listen 5000
-    * print listenResult
+    * wsClient.send(path, currentTime)
+    * def diff = handler.listenResult()
+    * print ("diff is :" + diff)
     ## send currentTime method(currentTime)
     ## do sync operation get syncTime
 
@@ -98,8 +104,8 @@ Feature: browser automation 1
 
 
   Scenario: send and listening Websocket
-    * def sleep = function(millis){ java.lang.Thread.sleep(millis) }
-    * def currentThread = function() { return java.lang.Thread.currentThread().toString();}
+    * def sleep = function(millis) { java.lang.Thread.sleep(millis) }
+    * def diff = function(handler) { while(handler.getDiff() == null){java.lang.Thread.sleep(50)} }
     * def path = '/app/sync/1234'
     * def subscribeUrl = '/topic/synctime/1234'
     * def serverUrl = 'ws://localhost:9001/ws'
@@ -109,8 +115,10 @@ Feature: browser automation 1
     * def wsClient = new javaClient(serverUrl, handler)
     * wsClient.subscribe(subscribeUrl)
     * wsClient.send(path, '1')
-    * listen 5000
-    * print handler.getDiff()
+    * sleep(80)
+    * def diff = handler.listenResult()
+    * print ("diff is :" + diff)
+
 
 
 

@@ -30,6 +30,8 @@ public class SyncPlayerClientApplication {
             Thread.sleep(5000);
             Integer seconds = controller.listenProgress();
             clientFacade.send(path, String.valueOf(seconds));
+            Integer result = handler.listenResult();
+            controller.syncProgress(result);
         }
     }
 

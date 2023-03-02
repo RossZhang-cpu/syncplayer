@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
 
 @Controller
 public class SyncTimeController {
@@ -23,6 +24,7 @@ public class SyncTimeController {
 
     private AtomicInteger count = new AtomicInteger(0);
     private Map<String, List<Integer>> timeMap = new ConcurrentHashMap<>();
+    private final String regex = "[0-5][0-9]:[0-5][0-9]";
 
     @MessageMapping("/sync/1234")
     @SendTo("/topic/synctime/1234")
@@ -35,7 +37,8 @@ public class SyncTimeController {
             //todo
         }
         //receive new message
-        list.add(Integer.valueOf(currentTime));
+        int secondes = Integer.parseInt(currentTime);
+        list.add(secondes);
         Integer syncTime = 0;
         if (i == 2) {
             //send sync message
@@ -43,6 +46,8 @@ public class SyncTimeController {
             syncTime = computeSyncTime(maxAndMin[0], maxAndMin[1]);
             count.set(0);
             timeMap.remove(roomId);
+        }else{
+            syncTime = secondes;
         }
         log.info("syncTime is {}", syncTime);
         return String.valueOf(syncTime);

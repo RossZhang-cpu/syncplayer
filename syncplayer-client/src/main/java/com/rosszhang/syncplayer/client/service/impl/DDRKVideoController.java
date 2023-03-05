@@ -52,8 +52,8 @@ public class DDRKVideoController extends WebSimulate implements VideoController{
     }
 
     @Override
-    public void playVideoByUrl(String url) {
-
+    public void openVideoByUrl(String url) {
+        this.driver.get(url);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class DDRKVideoController extends WebSimulate implements VideoController{
         String progressTime = progressBar.getAttribute("aria-valuetext");
         String time = Optional.ofNullable(progressTime).orElse("");
         String[] splitTime = time.split("/");
-        int seconds = CommonUtils.caculateToSecond(splitTime[0]);
+        int seconds = CommonUtils.calculateToSecond(splitTime[0]);
         log.info("current seconds {}", seconds);
         return seconds;
     }

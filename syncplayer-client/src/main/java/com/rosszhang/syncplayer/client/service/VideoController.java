@@ -8,7 +8,7 @@ public interface VideoController {
 
     void pauseVideoByUrl(String url);
 
-    void playVideoByUrl(String url);
+    void openVideoByUrl(String url);
 
     void playCurrentVideo();
 

@@ -15,27 +15,27 @@ public class SyncPlayerClientApplication {
     private static final Logger log = LoggerFactory.getLogger(SyncPlayerClientApplication.class);
 
 
-//    public static void main(String[] args) throws InterruptedException {
-//        DDRKVideoController controller = new DDRKVideoController();
-//        controller.openVideoWebSite();
-//        controller.searchVideoByName("初恋");
-//
-//        String serverEndPoint = "ws://localhost:9001/ws";
-//        String subscribeUrl = "/topic/synctime/1234";
-//        SyncTimeSessionHandler handler = new SyncTimeSessionHandler();
-//        WebSocketClientFacade clientFacade = new WebSocketClientFacade(serverEndPoint, handler);
-//        String path = "/app/sync/1234";
-//        clientFacade.subscribe(subscribeUrl);
-//        controller.playCurrentVideo();
-//        boolean isOver = false;
-//        while (!isOver) {
-//            Thread.sleep(5000);
-//            Integer seconds = controller.listenProgress();
-//            clientFacade.send(path, String.valueOf(seconds));
-//            Integer result = handler.listenResult();
-//            controller.syncProgress(result);
-//        }
-//    }
+    public static void DDRKmain(String[] args) throws InterruptedException {
+        DDRKVideoController controller = new DDRKVideoController();
+        controller.openVideoWebSite();
+        controller.searchVideoByName("初恋");
+
+        String serverEndPoint = "ws://localhost:9001/ws";
+        String subscribeUrl = "/topic/synctime/1234";
+        SyncTimeSessionHandler handler = new SyncTimeSessionHandler();
+        WebSocketClientFacade clientFacade = new WebSocketClientFacade(serverEndPoint, handler);
+        String path = "/app/sync/1234";
+        clientFacade.subscribe(subscribeUrl);
+        controller.playCurrentVideo();
+        boolean isOver = false;
+        while (!isOver) {
+            Thread.sleep(5000);
+            Integer seconds = controller.listenProgress();
+            clientFacade.send(path, String.valueOf(seconds));
+            Integer result = handler.listenResult();
+            controller.syncProgress(result);
+        }
+    }
 
     public static void main(String[] args) throws InterruptedException {
         VideoController controller = new YoutubeController();
@@ -43,19 +43,19 @@ public class SyncPlayerClientApplication {
 
         String serverEndPoint = "ws://localhost:9001/ws";
         String subscribeUrl = "/topic/synctime/1234";
-//        SyncTimeSessionHandler handler = new SyncTimeSessionHandler();
-//        WebSocketClientFacade clientFacade = new WebSocketClientFacade(serverEndPoint, handler);
-//        String path = "/app/sync/1234";
-//        clientFacade.subscribe(subscribeUrl);
+        SyncTimeSessionHandler handler = new SyncTimeSessionHandler();
+        WebSocketClientFacade clientFacade = new WebSocketClientFacade(serverEndPoint, handler);
+        String path = "/app/sync/1234";
+        clientFacade.subscribe(subscribeUrl);
         controller.playCurrentVideo();
-//        boolean isOver = false;
-//        while (!isOver) {
-//            Thread.sleep(5000);
+        boolean isOver = false;
+        while (!isOver) {
+            Thread.sleep(5000);
             Integer seconds = controller.listenProgress();
-//            clientFacade.send(path, String.valueOf(seconds));
-//            Integer result = handler.listenResult();
-            controller.syncProgress(300);
-//        }
+            clientFacade.send(path, String.valueOf(seconds));
+            Integer result = handler.listenResult();
+            controller.syncProgress(result);
+        }
     }
 
 

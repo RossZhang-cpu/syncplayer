@@ -46,9 +46,7 @@ public class SyncTimeController {
             syncTime = computeSyncTime(maxAndMin[0], maxAndMin[1]);
             count.set(0);
             timeMap.remove(roomId);
-        }else{
-            syncTime = secondes;
-        }
+        }else
         log.info("syncTime is {}", syncTime);
         return String.valueOf(syncTime);
     }
